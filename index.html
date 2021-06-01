@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Page Title</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+</head>
+<Style>
+    .ground{
+        width: 100%;
+        height: 900px;
+        background-color: black;
+        overflow: hidden;
+    }
+    img{
+        position: absolute;
+    }
+</Style>
+<script src="js/jquery-3.1.1.min.js"></script>
+<body>
+    <div id="ground" class="ground"><img id="player" src="./img/player_right.gif" style="left: 10px; top: 100px;"></div>
+</body>
+
+<script>//189000324 汪亮
+    $("#ground").on("click", (e) => {
+        $("#player").stop();//停止正在执行动画
+
+        let currentX = $("#player").offset().left;//获取当前X轴坐标
+        let currentY = $("#player").offset().top;//获取当前Y轴坐标
+        let clickX = e.originalEvent.x ||e.originalEvent.layerX || 0;
+        let clickY = e.originalEvent.y ||e.originalEvent.layerY || 0;
+        console.log(currentX + " " + currentY);
+        console.log(clickX + " " + clickY);
+        //控制角色移动速度
+        let Time = parseInt(Math.sqrt((clickX * clickX) + (clickY * clickY) * 100)); 
+
+        if(currentX <= clickX){
+            $("#player").attr('src', './player_right.gif');
+            $("#player").animate({
+                left:"+=" + clickX + "px", 
+                top:"+=" + clickY + "px" 
+            },Time);
+        }else{
+            $("#player").attr('src', './player_left.gif');
+            $("#player").animate({
+                left: clickX + "px", 
+                top: clickY + "px"
+            },Time);
+        }
+    });
+
+    $(window).keydown(() => {
+        $("#player").attr('src', './playerbig_left.gif');
+    });
+</script>
+</html>
